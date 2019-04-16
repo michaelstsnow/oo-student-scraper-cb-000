@@ -21,7 +21,30 @@ class Scraper
   end #end of def
 
   def self.scrape_profile_page(profile_url)
+    doc = Nokogiri::HTML(open(profile_url))
+    student_hash={}
+    social_icons=doc.css('div.social-icon-container a')
+    social_icons.each do |social_icon|
+      link=social_icon['href']
+      case
+      when link.include?('twitter')
+        student_hash[:twitter] = link
+      when link.include?('linkedin')
+        student_hash[:linkedin] = link
+      when link.include?('github')
+        student_hash[:github] = link
+      else
+        student_hash[:blog] = link
+      end # of case statement
+    end #end of loop
 
-  end
+    profile_quote=doc.css('div.profile-quote').text
+    profile_bio=doc.css('div.details-container p').text
+
+    student_hash[:profile_quote] = profile_quote
+    student_hash[:bio] = profile_bio
+
+    student_hash
+  end # end of scrape_profile_page
 
 end
