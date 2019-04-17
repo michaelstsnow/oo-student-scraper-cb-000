@@ -44,7 +44,7 @@ class Scraper
     student_hash[:profile_quote] = profile_quote
     student_hash[:bio] = profile_bio
 
-    student_ha
+    student_hash
   end # end of scrape_profile_page
 
 end
